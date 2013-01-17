@@ -1,5 +1,6 @@
 package org.analogweb.servlet.core;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.isA;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.analogweb.Cookies;
 import org.analogweb.Headers;
+import org.analogweb.MediaType;
 import org.analogweb.Parameters;
 import org.analogweb.RequestPath;
 import org.junit.Before;
@@ -164,6 +166,29 @@ public class DefaultRequestContextTest {
 
         context.setResponseStatus(404);
         verify(response).setStatus(404);
+    }
+
+    @Test
+    public void testGetContentType() {
+        context = new DefaultRequestContext(request, response, servletContext);
+
+        when(request.getHeaders("Content-Type")).thenReturn(
+                Collections.enumeration(Arrays.asList("text/xml", "application/xml")));
+
+        MediaType actual = context.getContentType();
+        assertThat(actual.getType(), is("text"));
+        assertThat(actual.getSubType(), is("xml"));
+    }
+
+    @Test
+    public void testGetContentTypeWithoutHeaderValue() {
+        context = new DefaultRequestContext(request, response, servletContext);
+
+        when(request.getHeaders("Content-Type")).thenReturn(
+                Collections.enumeration(Collections.emptyList()));
+
+        MediaType actual = context.getContentType();
+        assertThat(actual, is(nullValue()));
     }
 
 }

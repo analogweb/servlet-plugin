@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.analogweb.Cookies;
 import org.analogweb.Headers;
+import org.analogweb.MediaType;
 import org.analogweb.Parameters;
 import org.analogweb.RequestPath;
 import org.analogweb.core.DefaultRequestPath;
+import org.analogweb.core.MediaTypes;
 import org.analogweb.exception.ApplicationRuntimeException;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.ArrayUtils;
@@ -69,11 +71,12 @@ public class DefaultRequestContext implements ServletRequestContext {
 
     protected URI createRequestURI(HttpServletRequest request) {
         try {
-            return new URI(request.getScheme(), null, request.getServerName(), request.getServerPort(),
-                    request.getRequestURI(), request.getQueryString(), null);
+            return new URI(request.getScheme(), null, request.getServerName(),
+                    request.getServerPort(), request.getRequestURI(), request.getQueryString(),
+                    null);
         } catch (URISyntaxException e) {
             // TODO better exception.
-            throw new ApplicationRuntimeException(e){
+            throw new ApplicationRuntimeException(e) {
                 private static final long serialVersionUID = 1L;
             };
         }
@@ -285,4 +288,14 @@ public class DefaultRequestContext implements ServletRequestContext {
         }
 
     }
+
+    @Override
+    public MediaType getContentType() {
+        List<String> contentTypes = getRequestHeaders().getValues("Content-Type");
+        if (contentTypes.isEmpty()) {
+            return null;
+        }
+        return MediaTypes.valueOf(contentTypes.get(0));
+    }
+
 }
