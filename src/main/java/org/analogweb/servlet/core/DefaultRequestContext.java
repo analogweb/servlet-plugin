@@ -2,9 +2,7 @@ package org.analogweb.servlet.core;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +19,6 @@ import org.analogweb.Parameters;
 import org.analogweb.RequestPath;
 import org.analogweb.core.DefaultRequestPath;
 import org.analogweb.core.MediaTypes;
-import org.analogweb.exception.ApplicationRuntimeException;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.ArrayUtils;
 import org.analogweb.util.Maps;
@@ -36,7 +33,6 @@ public class DefaultRequestContext implements ServletRequestContext {
     private final ServletContext servletContext;
     private Cookies cookies;
     private ServletRequestHeaders requestHeaders;
-    private ServletResponseHeaders responseHeaders;
     private ServletParameters parameters;
 
     public DefaultRequestContext(HttpServletRequest request, HttpServletResponse response,
@@ -64,22 +60,8 @@ public class DefaultRequestContext implements ServletRequestContext {
     @Override
     public RequestPath getRequestPath() {
         HttpServletRequest request = getServletRequest();
-        URI uri = createRequestURI(request);
-        return new DefaultRequestPath(getServletContext().getContextPath(), uri,
-                request.getMethod());
-    }
-
-    protected URI createRequestURI(HttpServletRequest request) {
-        try {
-            return new URI(request.getScheme(), null, request.getServerName(),
-                    request.getServerPort(), request.getRequestURI(), request.getQueryString(),
-                    null);
-        } catch (URISyntaxException e) {
-            // TODO better exception.
-            throw new ApplicationRuntimeException(e) {
-                private static final long serialVersionUID = 1L;
-            };
-        }
+            return new DefaultRequestPath(URI.create(getServletContext().getContextPath()),
+                    URI.create(request.getRequestURI()), request.getMethod());
     }
 
     @Override
@@ -254,40 +236,6 @@ public class DefaultRequestContext implements ServletRequestContext {
         return getServletRequest().getInputStream();
     }
 
-    @Override
-    public OutputStream getResponseBody() throws IOException {
-        return getServletResponse().getOutputStream();
-    }
-
-    @Override
-    public Headers getResponseHeaders() {
-        if (this.responseHeaders == null) {
-            this.responseHeaders = new ServletResponseHeaders(getServletRequest(),
-                    getServletResponse());
-        }
-        return this.responseHeaders;
-    }
-
-    @Override
-    public void setResponseStatus(int status) {
-        getServletResponse().setStatus(status);
-    }
-
-    static class ServletResponseHeaders extends ServletRequestHeaders {
-
-        private HttpServletResponse response;
-
-        ServletResponseHeaders(HttpServletRequest request, HttpServletResponse response) {
-            super(request);
-            this.response = response;
-        }
-
-        @Override
-        public void putValue(String name, String value) {
-            this.response.addHeader(name, value);
-        }
-
-    }
 
     @Override
     public MediaType getContentType() {

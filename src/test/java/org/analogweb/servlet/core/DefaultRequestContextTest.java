@@ -11,13 +11,11 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,13 +84,14 @@ public class DefaultRequestContextTest {
         verify(response, times(2)).addCookie(isA(Cookie.class));
     }
 
+   
     @Test
     public void testGetRequestPath() {
         context = new DefaultRequestContext(request, response, servletContext);
         when(servletContext.getContextPath()).thenReturn("/foo");
         when(request.getRequestURI()).thenReturn("/foo/baa/baz.rn");
         when(request.getMethod()).thenReturn("GET");
-        when(request.getProtocol()).thenReturn("http");
+        when(request.getScheme()).thenReturn("http");
         when(request.getServerName()).thenReturn("somehost");
         when(request.getServerPort()).thenReturn(80);
 
@@ -132,40 +131,6 @@ public class DefaultRequestContextTest {
 
         InputStream actual = context.getRequestBody();
         assertThat((ServletInputStream) actual, is(expected));
-    }
-
-    @Test
-    public void testGetResponseHeaders() {
-        context = new DefaultRequestContext(request, response, servletContext);
-        when(request.getHeaders("foo")).thenReturn(Collections.enumeration(Arrays.asList("baa")));
-
-        Headers actual = context.getResponseHeaders();
-        assertThat(actual.getValues("foo").get(0), is("baa"));
-
-        actual.putValue("baa", "baz");
-        verify(response).addHeader("baa", "baz");
-    }
-
-    @Test
-    public void testGetResponseBody() throws IOException {
-        context = new DefaultRequestContext(request, response, servletContext);
-
-        ServletOutputStream expected = new ServletOutputStream() {
-            @Override
-            public void write(int b) throws IOException {
-            }
-        };
-        when(response.getOutputStream()).thenReturn(expected);
-        OutputStream actual = context.getResponseBody();
-        assertThat((ServletOutputStream) actual, is(expected));
-    }
-
-    @Test
-    public void testSetResponseCode() {
-        context = new DefaultRequestContext(request, response, servletContext);
-
-        context.setResponseStatus(404);
-        verify(response).setStatus(404);
     }
 
     @Test

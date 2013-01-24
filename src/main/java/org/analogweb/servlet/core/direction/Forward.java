@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.analogweb.Direction;
 import org.analogweb.RequestContext;
+import org.analogweb.ResponseContext;
 import org.analogweb.core.direction.ContextSpecifiedDirection;
 import org.analogweb.exception.MissingRequirmentsException;
 import org.analogweb.exception.WebApplicationException;
@@ -35,7 +36,7 @@ public class Forward extends ContextSpecifiedDirection<ServletRequestContext> {
     }
 
     @Override
-    protected void renderInternal(ServletRequestContext context) throws IOException,
+    protected void renderInternal(ServletRequestContext context,ResponseContext response) throws IOException,
             WebApplicationException {
         Assertion.notNull(context, RequestContext.class.getCanonicalName());
 

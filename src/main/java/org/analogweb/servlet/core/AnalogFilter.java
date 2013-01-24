@@ -17,6 +17,7 @@ import org.analogweb.ApplicationContextResolver;
 import org.analogweb.ApplicationProperties;
 import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
+import org.analogweb.ResponseContext;
 import org.analogweb.core.WebApplication;
 import org.analogweb.exception.WebApplicationException;
 import org.analogweb.util.ApplicationPropertiesHolder;
@@ -52,6 +53,9 @@ public class AnalogFilter implements Filter {
 
         RequestContext context = createRequestContext(getServletContext(), request, response);
 
+        ResponseContext responseContext = createResponseContext(getServletContext(), request,
+                response);
+
         RequestPath requestedPath = context.getRequestPath();
 
         log.log(Markers.LIFECYCLE, "DL000002", requestedPath);
@@ -63,7 +67,7 @@ public class AnalogFilter implements Filter {
             return;
         }
         try {
-            webApplication.processRequest(requestedPath, context);
+            webApplication.processRequest(requestedPath, context, responseContext);
         } catch (WebApplicationException e) {
             Throwable t = e.getCause();
             if (t != null) {
@@ -100,6 +104,11 @@ public class AnalogFilter implements Filter {
     protected RequestContext createRequestContext(ServletContext context,
             HttpServletRequest request, HttpServletResponse response) {
         return new DefaultRequestContext(request, response, context);
+    }
+
+    protected ResponseContext createResponseContext(ServletContext servletContext,
+            HttpServletRequest request, HttpServletResponse response) {
+        return new ServletResponseContext(request, response, servletContext);
     }
 
     protected ApplicationContextResolver createApplicationContextResolver(ServletContext context) {

@@ -15,6 +15,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.analogweb.ResponseContext;
 import org.analogweb.exception.AssertionFailureException;
 import org.analogweb.exception.MissingRequirmentsException;
 import org.analogweb.servlet.ServletRequestContext;
@@ -32,6 +33,7 @@ import org.junit.rules.ExpectedException;
 public class ForwardTest {
 
     private ServletRequestContext context;
+    private ResponseContext responseContext;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private RequestDispatcher dispatcher;
@@ -45,6 +47,7 @@ public class ForwardTest {
     @Before
     public void setUp() throws Exception {
         context = mock(ServletRequestContext.class);
+        responseContext = mock(ResponseContext.class);
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         dispatcher = mock(RequestDispatcher.class);
@@ -59,7 +62,7 @@ public class ForwardTest {
 
         doNothing().when(dispatcher).forward(request, response);
 
-        Forward.to(path).render(context);
+        Forward.to(path).render(context,responseContext);
 
         verify(dispatcher).forward(request, response);
     }
@@ -69,7 +72,7 @@ public class ForwardTest {
         thrown.expect(AssertionFailureException.class);
 
         String path = "/foo/baa.rn";
-        Forward.to(path).render(null);
+        Forward.to(path).render(null,responseContext);
 
     }
 
@@ -129,7 +132,7 @@ public class ForwardTest {
         Serializable extractToRequest = mock(Serializable.class);
         doNothing().when(request).setAttribute("serializeable", extractToRequest);
 
-        Forward.to(path).with(extractToRequest).render(context);
+        Forward.to(path).with(extractToRequest).render(context,responseContext);
 
         verify(dispatcher).forward(request, response);
     }
@@ -146,7 +149,7 @@ public class ForwardTest {
         Serializable extractToRequest = null;
         //        doNothing().when(request).setAttribute("serializeable", extractToRequest);
 
-        Forward.to(path).with(extractToRequest).render(context);
+        Forward.to(path).with(extractToRequest).render(context,responseContext);
 
         verify(dispatcher).forward(request, response);
     }
@@ -164,7 +167,7 @@ public class ForwardTest {
         Map<String, Object> extractToRequest = Maps.newHashMap("foo", foo);
         doNothing().when(request).setAttribute("foo", foo);
 
-        Forward.to(path).with(extractToRequest).render(context);
+        Forward.to(path).with(extractToRequest).render(context,responseContext);
 
         verify(dispatcher).forward(request, response);
     }
@@ -181,7 +184,7 @@ public class ForwardTest {
         Map<String, Object> extractToRequest = null;
         //        doNothing().when(request).setAttribute("foo", foo);
 
-        Forward.to(path).with(extractToRequest).render(context);
+        Forward.to(path).with(extractToRequest).render(context,responseContext);
 
         verify(dispatcher).forward(request, response);
     }
