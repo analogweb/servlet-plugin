@@ -18,6 +18,7 @@ import org.analogweb.ApplicationProperties;
 import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
 import org.analogweb.ResponseContext;
+import org.analogweb.ResponseContext.ResponseEntity;
 import org.analogweb.core.WebApplication;
 import org.analogweb.exception.WebApplicationException;
 import org.analogweb.util.ApplicationPropertiesHolder;
@@ -68,6 +69,8 @@ public class AnalogFilter implements Filter {
         }
         try {
             webApplication.processRequest(requestedPath, context, responseContext);
+            ResponseEntity entity = responseContext.getResponseWriter().getEntity();
+            entity.writeInto(response.getOutputStream());
         } catch (WebApplicationException e) {
             Throwable t = e.getCause();
             if (t != null) {
