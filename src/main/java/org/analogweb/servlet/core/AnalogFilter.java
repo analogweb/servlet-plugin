@@ -1,6 +1,9 @@
 package org.analogweb.servlet.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -22,6 +25,9 @@ import org.analogweb.ResponseContext.ResponseEntity;
 import org.analogweb.core.WebApplication;
 import org.analogweb.exception.WebApplicationException;
 import org.analogweb.util.ApplicationPropertiesHolder;
+import org.analogweb.util.ClassCollector;
+import org.analogweb.util.FileClassCollector;
+import org.analogweb.util.JarClassCollector;
 import org.analogweb.util.logging.Log;
 import org.analogweb.util.logging.Logs;
 import org.analogweb.util.logging.Markers;
@@ -88,7 +94,14 @@ public class AnalogFilter implements Filter {
         this.webApplication = createApplication(filterConfig, classLoader);
         props = configureApplicationProperties(filterConfig);
         this.webApplication.run(createApplicationContextResolver(this.servletContext), props,
-                classLoader);
+                getClassCollectors(), classLoader);
+    }
+
+    protected List<ClassCollector> getClassCollectors() {
+        List<ClassCollector> list = new ArrayList<ClassCollector>();
+        list.add(new JarClassCollector());
+        list.add(new FileClassCollector());
+        return Collections.unmodifiableList(list);
     }
 
     protected ApplicationProperties configureApplicationProperties(final FilterConfig filterConfig) {
