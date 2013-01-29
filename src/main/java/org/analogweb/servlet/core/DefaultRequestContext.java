@@ -60,8 +60,8 @@ public class DefaultRequestContext implements ServletRequestContext {
     @Override
     public RequestPath getRequestPath() {
         HttpServletRequest request = getServletRequest();
-            return new DefaultRequestPath(URI.create(getServletContext().getContextPath()),
-                    URI.create(request.getRequestURI()), request.getMethod());
+        return new DefaultRequestPath(URI.create(getServletContext().getContextPath()),
+                URI.create(request.getRequestURI()), request.getMethod());
     }
 
     @Override
@@ -199,11 +199,16 @@ public class DefaultRequestContext implements ServletRequestContext {
     }
 
     @Override
-    public Parameters getParameters() {
+    public Parameters getQueryParameters() {
         if (this.parameters == null) {
             this.parameters = new ServletParameters(getServletRequest());
         }
         return this.parameters;
+    }
+
+    @Override
+    public Parameters getFormParameters() {
+        return getQueryParameters();
     }
 
     class ServletParameters implements Parameters {
@@ -235,7 +240,6 @@ public class DefaultRequestContext implements ServletRequestContext {
     public InputStream getRequestBody() throws IOException {
         return getServletRequest().getInputStream();
     }
-
 
     @Override
     public MediaType getContentType() {

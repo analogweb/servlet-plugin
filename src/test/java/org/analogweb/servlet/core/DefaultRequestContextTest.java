@@ -84,7 +84,6 @@ public class DefaultRequestContextTest {
         verify(response, times(2)).addCookie(isA(Cookie.class));
     }
 
-   
     @Test
     public void testGetRequestPath() {
         context = new DefaultRequestContext(request, response, servletContext);
@@ -105,7 +104,7 @@ public class DefaultRequestContextTest {
         context = new DefaultRequestContext(request, response, servletContext);
         when(request.getParameterValues("foo")).thenReturn(new String[] { "baa" });
 
-        Parameters actual = context.getParameters();
+        Parameters actual = context.getQueryParameters();
         assertThat(actual.getValues("foo").get(0), is("baa"));
     }
 
