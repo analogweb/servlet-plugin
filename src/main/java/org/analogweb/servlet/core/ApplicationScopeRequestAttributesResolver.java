@@ -3,7 +3,7 @@ package org.analogweb.servlet.core;
 import javax.servlet.ServletContext;
 
 import org.analogweb.InvocationMetadata;
-import org.analogweb.core.ContextSpecifiedAttributesHandler;
+import org.analogweb.core.ContextSpecificAttributesHandler;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.StringUtils;
 import org.analogweb.util.logging.Log;
@@ -13,7 +13,7 @@ import org.analogweb.util.logging.Markers;
 /**
  * @author snowgoose
  */
-public class ApplicationScopeRequestAttributesResolver extends ContextSpecifiedAttributesHandler<ServletRequestContext> {
+public class ApplicationScopeRequestAttributesResolver extends ContextSpecificAttributesHandler<ServletRequestContext> {
 
     private static final Log log = Logs.getLog(ApplicationScopeRequestAttributesResolver.class);
     private static final String NAME = "application";

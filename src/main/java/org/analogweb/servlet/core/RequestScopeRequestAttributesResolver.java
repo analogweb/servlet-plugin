@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.analogweb.InvocationMetadata;
 import org.analogweb.RequestContext;
-import org.analogweb.core.ContextSpecifiedAttributesHandler;
+import org.analogweb.core.ContextSpecificAttributesHandler;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.Assertion;
 import org.analogweb.util.logging.Log;
@@ -15,7 +15,7 @@ import org.analogweb.util.logging.Markers;
  * @author snowgoose
  */
 public class RequestScopeRequestAttributesResolver extends
-        ContextSpecifiedAttributesHandler<ServletRequestContext> {
+        ContextSpecificAttributesHandler<ServletRequestContext> {
 
     private static final Log log = Logs.getLog(RequestScopeRequestAttributesResolver.class);
 
