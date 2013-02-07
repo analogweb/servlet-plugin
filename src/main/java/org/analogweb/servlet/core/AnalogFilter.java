@@ -74,8 +74,17 @@ public class AnalogFilter implements Filter {
             return;
         }
         try {
-            webApplication.processRequest(requestedPath, context, responseContext);
+            int proceeded = webApplication.processRequest(requestedPath, context, responseContext);
+            if (proceeded == Application.NOT_FOUND) {
+                log.log(Markers.LIFECYCLE, "DL000003", requestedPath, specifier);
+                chain.doFilter(request, response);
+                return;
+            }
             ResponseEntity entity = responseContext.getResponseWriter().getEntity();
+            if (entity == null) {
+                response.sendError(HttpServletResponse.SC_NO_CONTENT);
+                return;
+            }
             entity.writeInto(response.getOutputStream());
         } catch (WebApplicationException e) {
             Throwable t = e.getCause();
