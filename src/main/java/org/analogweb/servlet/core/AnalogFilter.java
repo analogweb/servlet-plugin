@@ -22,12 +22,14 @@ import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
 import org.analogweb.ResponseContext;
 import org.analogweb.ResponseContext.ResponseEntity;
+import org.analogweb.core.MissingRequiredParameterException;
 import org.analogweb.core.WebApplication;
-import org.analogweb.exception.WebApplicationException;
+import org.analogweb.WebApplicationException;
 import org.analogweb.util.ApplicationPropertiesHolder;
 import org.analogweb.util.ClassCollector;
 import org.analogweb.util.FileClassCollector;
 import org.analogweb.util.JarClassCollector;
+import org.analogweb.util.StringUtils;
 import org.analogweb.util.logging.Log;
 import org.analogweb.util.logging.Logs;
 import org.analogweb.util.logging.Markers;
@@ -114,6 +116,11 @@ public class AnalogFilter implements Filter {
     }
 
     protected ApplicationProperties configureApplicationProperties(final FilterConfig filterConfig) {
+		String packageNames = filterConfig
+				.getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
+    	if(StringUtils.isEmpty(packageNames)){
+    		throw new MissingRequiredParameterException(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
+    	}
         return ApplicationPropertiesHolder
                 .configure(
                         this.webApplication,
@@ -123,7 +130,7 @@ public class AnalogFilter implements Filter {
                                 filterConfig
                                         .getInitParameter(Application.INIT_PARAMETER_APPLICATION_SPECIFIER),
                                 filterConfig
-                                        .getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES)));
+                                        .getInitParameter(Application.INIT_PARAMETER_APPLICATION_TEMPORARY_DIR)));
     }
 
     protected RequestContext createRequestContext(ServletContext context,

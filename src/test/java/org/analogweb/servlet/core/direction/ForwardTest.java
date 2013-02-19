@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.analogweb.ResponseContext;
-import org.analogweb.exception.AssertionFailureException;
-import org.analogweb.exception.MissingRequirmentsException;
+import org.analogweb.core.AssertionFailureException;
+import org.analogweb.core.MissingRequirmentsException;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.Maps;
 import org.hamcrest.BaseMatcher;
