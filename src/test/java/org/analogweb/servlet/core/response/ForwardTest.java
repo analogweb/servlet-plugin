@@ -1,4 +1,4 @@
-package org.analogweb.servlet.core.direction;
+package org.analogweb.servlet.core.response;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;

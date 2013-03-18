@@ -1,4 +1,4 @@
-package org.analogweb.servlet.core.direction;
+package org.analogweb.servlet.core.response;
 
 import java.io.IOException;
 import java.util.Map;
@@ -8,10 +8,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.analogweb.Direction;
+import org.analogweb.Response;
 import org.analogweb.RequestContext;
 import org.analogweb.ResponseContext;
-import org.analogweb.core.direction.ContextSpecifiedDirection;
+import org.analogweb.core.response.ContextSpecifiedResponse;
 import org.analogweb.core.MissingRequirmentsException;
 import org.analogweb.WebApplicationException;
 import org.analogweb.servlet.ServletRequestContext;
@@ -20,12 +20,12 @@ import org.analogweb.util.Maps;
 import org.analogweb.util.StringUtils;
 
 /**
- * リクエストをフォワードする{@link Direction}です。
+ * リクエストをフォワードする{@link Response}です。
  * @see HttpServletRequest#getRequestDispatcher(String)
  * @see RequestDispatcher#forward(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
  * @author snowgoose
  */
-public class Forward extends ContextSpecifiedDirection<ServletRequestContext> {
+public class Forward extends ContextSpecifiedResponse<ServletRequestContext> {
 
     private final String forwardTo;
     private final Map<String, Object> extractContext;
