@@ -31,9 +31,9 @@ import org.junit.Test;
 /**
  * @author snowgoose
  */
-public class DefaultRequestContextTest {
+public class DefaultServletRequestContextTest {
 
-    private DefaultRequestContext context;
+    private DefaultServletRequestContext context;
 
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -51,7 +51,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testGetCookies() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getRequestURI()).thenReturn("/baa/baz.rn");
         when(request.getContextPath()).thenReturn("/foo");
         when(request.getMethod()).thenReturn("GET");
@@ -63,7 +63,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testPutCookies() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getRequestURI()).thenReturn("/baa/baz.rn");
         when(request.getContextPath()).thenReturn("/foo");
         when(request.getMethod()).thenReturn("GET");
@@ -86,7 +86,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testGetRequestPath() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         when(servletContext.getContextPath()).thenReturn("/foo");
         when(request.getRequestURI()).thenReturn("/foo/baa/baz.rn");
         when(request.getMethod()).thenReturn("GET");
@@ -101,7 +101,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testGetParameters() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getParameterValues("foo")).thenReturn(new String[] { "baa" });
 
         Parameters actual = context.getQueryParameters();
@@ -110,7 +110,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testRequestHeaders() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getHeaders("foo")).thenReturn(Collections.enumeration(Arrays.asList("baa")));
 
         Headers actual = context.getRequestHeaders();
@@ -119,7 +119,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testRequestBody() throws IOException {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
         ServletInputStream expected = new ServletInputStream() {
             @Override
             public int read() throws IOException {
@@ -134,7 +134,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testGetContentType() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
 
         when(request.getHeaders("Content-Type")).thenReturn(
                 Collections.enumeration(Arrays.asList("text/xml", "application/xml")));
@@ -146,7 +146,7 @@ public class DefaultRequestContextTest {
 
     @Test
     public void testGetContentTypeWithoutHeaderValue() {
-        context = new DefaultRequestContext(request, response, servletContext);
+        context = new DefaultServletRequestContext(request, response, servletContext);
 
         when(request.getHeaders("Content-Type")).thenReturn(
                 Collections.enumeration(Collections.emptyList()));

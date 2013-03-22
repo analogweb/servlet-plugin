@@ -27,7 +27,7 @@ import org.analogweb.util.Maps;
 /**
  * @author snowgoose
  */
-public class DefaultRequestContext implements ServletRequestContext {
+public class DefaultServletRequestContext implements ServletRequestContext {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
@@ -36,7 +36,7 @@ public class DefaultRequestContext implements ServletRequestContext {
     private ServletRequestHeaders requestHeaders;
     private ServletParameters parameters;
 
-    public DefaultRequestContext(HttpServletRequest request, HttpServletResponse response,
+    public DefaultServletRequestContext(HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext) {
         this.request = request;
         this.response = response;
@@ -212,7 +212,7 @@ public class DefaultRequestContext implements ServletRequestContext {
         return getQueryParameters();
     }
 
-    class ServletParameters implements Parameters {
+    static class ServletParameters implements Parameters {
 
         private HttpServletRequest request;
 

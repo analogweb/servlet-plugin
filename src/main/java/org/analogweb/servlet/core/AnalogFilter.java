@@ -137,7 +137,7 @@ public class AnalogFilter implements Filter {
 
     protected RequestContext createRequestContext(ServletContext context,
             HttpServletRequest request, HttpServletResponse response) {
-        return new DefaultRequestContext(request, response, context);
+        return new DefaultServletRequestContext(request, response, context);
     }
 
     protected ResponseContext createResponseContext(ServletContext servletContext,

@@ -8,7 +8,7 @@ import org.analogweb.Headers;
 import org.analogweb.RequestContext;
 import org.analogweb.ResponseContext;
 import org.analogweb.core.DefaultResponseWriter;
-import org.analogweb.servlet.core.DefaultRequestContext.ServletRequestHeaders;
+import org.analogweb.servlet.core.DefaultServletRequestContext.ServletRequestHeaders;
 
 /**
  * @author snowgoose
