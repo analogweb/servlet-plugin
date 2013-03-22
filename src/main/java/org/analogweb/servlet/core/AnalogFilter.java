@@ -103,7 +103,7 @@ public class AnalogFilter implements Filter {
         this.servletContext = filterConfig.getServletContext();
         ClassLoader classLoader = getCurrentClassLoader();
         this.webApplication = createApplication(filterConfig, classLoader);
-        props = configureApplicationProperties(filterConfig);
+        this.props = configureApplicationProperties(filterConfig);
         this.webApplication.run(createApplicationContextResolver(this.servletContext), props,
                 getClassCollectors(), classLoader);
     }
@@ -121,16 +121,18 @@ public class AnalogFilter implements Filter {
     	if(StringUtils.isEmpty(packageNames)){
     		throw new MissingRequiredParameterException(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
     	}
-        return ApplicationPropertiesHolder
-                .configure(
-                        this.webApplication,
-                        new ApplicationPropertiesHolder.DefaultCreator(
-                                filterConfig
-                                        .getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES),
-                                filterConfig
-                                        .getInitParameter(Application.INIT_PARAMETER_APPLICATION_SPECIFIER),
-                                filterConfig
-                                        .getInitParameter(Application.INIT_PARAMETER_APPLICATION_TEMPORARY_DIR)));
+		return ApplicationPropertiesHolder
+				.configure(
+						this.webApplication,
+						new ApplicationPropertiesHolder.DefaultCreator(
+								filterConfig
+										.getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES),
+								filterConfig
+										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_SPECIFIER),
+								filterConfig
+										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_TEMPORARY_DIR),
+								filterConfig
+										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_PROVISION_LOCALE)));
     }
 
     protected RequestContext createRequestContext(ServletContext context,

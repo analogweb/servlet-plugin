@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -249,5 +250,16 @@ public class DefaultRequestContext implements ServletRequestContext {
         }
         return MediaTypes.valueOf(contentTypes.get(0));
     }
+
+	@Override
+	public Locale getLocale() {
+		return getServletRequest().getLocale();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Locale> getLocales() {
+		return Collections.list(getServletRequest().getLocales());
+	}
 
 }
