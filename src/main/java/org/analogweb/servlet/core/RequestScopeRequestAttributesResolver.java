@@ -20,11 +20,6 @@ public class RequestScopeRequestAttributesResolver extends
     private static final Log log = Logs.getLog(RequestScopeRequestAttributesResolver.class);
 
     @Override
-    public String getScopeName() {
-        return "request";
-    }
-
-    @Override
     protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext,
             InvocationMetadata metadata, String name, Class<?> requiredType) {
         HttpServletRequest request = requestContext.getServletRequest();
@@ -37,14 +32,15 @@ public class RequestScopeRequestAttributesResolver extends
         Assertion.notNull(requestContext, RequestContext.class.getName());
         HttpServletRequest request = requestContext.getServletRequest();
         request.setAttribute(name, value);
-        log.log(Markers.VARIABLE_ACCESS, "TV000001", getScopeName(), name, value);
+        log.log(Markers.VARIABLE_ACCESS, "TV000001",
+                RequestScopeRequestAttributesResolver.class.getCanonicalName(), name, value);
     }
 
     @Override
     public void removeAttributeOnContext(ServletRequestContext requestContext, String name) {
         HttpServletRequest request = requestContext.getServletRequest();
         request.removeAttribute(name);
-        log.log(Markers.VARIABLE_ACCESS, "TV000002", getScopeName(), name);
+        log.log(Markers.VARIABLE_ACCESS, "TV000002",
+                RequestScopeRequestAttributesResolver.class.getCanonicalName(), name);
     }
-
 }

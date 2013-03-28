@@ -39,61 +39,31 @@ public class SessionScopeRequestAttributesResolverTest {
         metadata = mock(InvocationMetadata.class);
     }
 
-    /**
-     * Test method for
-     * {@link org.analogweb.core.SessionScopeRequestAttributesResolver#getScopeName()}
-     * .
-     */
-    @Test
-    public void testGetName() {
-        assertThat(resolver.getScopeName(), is("session"));
-    }
-
-    /**
-     * Test method for
-     * {@link org.analogweb.core.SessionScopeRequestAttributesResolver#resolveAttributeValue(org.analogweb.RequestContext, java.lang.String)}
-     * .
-     */
     @Test
     public void testResolveAttributeValue() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(session);
         when(session.getAttribute("foo")).thenReturn("baa");
-
-        Object actual = resolver.resolveAttributeValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
         assertThat((String) actual, is("baa"));
-
         verify(session).getAttribute("foo");
     }
 
-    /**
-     * Test method for
-     * {@link org.analogweb.core.SessionScopeRequestAttributesResolver#resolveAttributeValue(org.analogweb.RequestContext, java.lang.String)}
-     * .
-     */
     @Test
     public void testResolveAttributeValueAttributeNotAvairable() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(session);
         when(session.getAttribute("foo")).thenReturn(null);
-
-        Object actual = resolver.resolveAttributeValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
         assertNull(actual);
-
         verify(session).getAttribute("foo");
     }
 
-    /**
-     * Test method for
-     * {@link org.analogweb.core.SessionScopeRequestAttributesResolver#resolveAttributeValue(org.analogweb.RequestContext, java.lang.String)}
-     * .
-     */
     @Test
     public void testResolveAttributeValueSessionNotAvairable() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(null);
-
-        Object actual = resolver.resolveAttributeValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
         assertNull(actual);
     }
 
@@ -102,7 +72,6 @@ public class SessionScopeRequestAttributesResolverTest {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(true)).thenReturn(session);
         doNothing().when(session).setAttribute("foo", "baa");
-
         resolver.putAttributeValue(requestContext, "foo", "baa");
         verify(session).setAttribute("foo", "baa");
     }
@@ -117,9 +86,7 @@ public class SessionScopeRequestAttributesResolverTest {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(true)).thenReturn(session);
         doNothing().when(session).removeAttribute("baa");
-
         resolver.removeAttribute(requestContext, "baa");
-
         verify(session).removeAttribute("baa");
     }
 
@@ -127,5 +94,4 @@ public class SessionScopeRequestAttributesResolverTest {
     public void testRemoveAttributeWithNullValue() {
         resolver.removeAttribute(requestContext, null);
     }
-
 }

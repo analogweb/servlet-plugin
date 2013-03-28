@@ -26,7 +26,6 @@ public class RequestScopeRequestAttributesResolverTest {
     private ServletRequestContext requestContext;
     private HttpServletRequest request;
     private InvocationMetadata metadata;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -39,16 +38,10 @@ public class RequestScopeRequestAttributesResolverTest {
     }
 
     @Test
-    public void testGetName() {
-        assertThat(resolver.getScopeName(), is("request"));
-    }
-
-    @Test
     public void testResolveAttributeValue() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getAttribute("foo")).thenReturn(1L);
-
-        Object actual = resolver.resolveAttributeValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
         assertThat((Long) actual, is(1L));
     }
 
@@ -56,16 +49,13 @@ public class RequestScopeRequestAttributesResolverTest {
     public void testPutAttributeValue() {
         when(requestContext.getServletRequest()).thenReturn(request);
         doNothing().when(request).setAttribute("foo", 1L);
-
         resolver.putAttributeValue(requestContext, "foo", 1L);
-
         verify(request).setAttribute("foo", 1L);
     }
 
     @Test
     public void testPutAttributeValueWithNullContext() {
         thrown.expect(AssertionFailureException.class);
-
         resolver.putAttributeValue(null, "foo", 1L);
     }
 
@@ -73,9 +63,7 @@ public class RequestScopeRequestAttributesResolverTest {
     public void testRemoveAttribute() {
         when(requestContext.getServletRequest()).thenReturn(request);
         doNothing().when(request).removeAttribute("boo");
-
         resolver.removeAttribute(requestContext, "boo");
-
         verify(request).removeAttribute("boo");
     }
 }

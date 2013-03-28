@@ -20,11 +20,6 @@ public class SessionScopeRequestAttributesResolver extends
     private static final Log log = Logs.getLog(SessionScopeRequestAttributesResolver.class);
 
     @Override
-    public String getScopeName() {
-        return "session";
-    }
-
-    @Override
     protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext,
             InvocationMetadata metadatan, String name, Class<?> requiredType) {
         HttpServletRequest request = requestContext.getServletRequest();
@@ -44,7 +39,8 @@ public class SessionScopeRequestAttributesResolver extends
         HttpServletRequest request = requestContext.getServletRequest();
         HttpSession session = request.getSession(true);
         session.setAttribute(name, value);
-        log.log(Markers.VARIABLE_ACCESS, "TV000001", getScopeName(), name, value);
+        log.log(Markers.VARIABLE_ACCESS, "TV000001",
+                SessionScopeRequestAttributesResolver.class.getCanonicalName(), name, value);
     }
 
     @Override
@@ -55,7 +51,8 @@ public class SessionScopeRequestAttributesResolver extends
         HttpServletRequest request = requestContext.getServletRequest();
         HttpSession session = request.getSession(true);
         session.removeAttribute(name);
-        log.log(Markers.VARIABLE_ACCESS, "TV000002", getScopeName(), name);
+        log.log(Markers.VARIABLE_ACCESS, "TV000002",
+                SessionScopeRequestAttributesResolver.class.getCanonicalName(), name);
     }
 
 }

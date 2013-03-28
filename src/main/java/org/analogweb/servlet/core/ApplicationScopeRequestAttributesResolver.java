@@ -13,19 +13,14 @@ import org.analogweb.util.logging.Markers;
 /**
  * @author snowgoose
  */
-public class ApplicationScopeRequestAttributesResolver extends ContextSpecificAttributesHandler<ServletRequestContext> {
+public class ApplicationScopeRequestAttributesResolver extends
+        ContextSpecificAttributesHandler<ServletRequestContext> {
 
     private static final Log log = Logs.getLog(ApplicationScopeRequestAttributesResolver.class);
-    private static final String NAME = "application";
 
     @Override
-    public String getScopeName() {
-        return NAME;
-    }
-
-    @Override
-    protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext, InvocationMetadata metadata,
-            String key, Class<?> requiredType) {
+    protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext,
+            InvocationMetadata metadata, String key, Class<?> requiredType) {
         if (StringUtils.isEmpty(key)) {
             return null;
         }
@@ -34,13 +29,15 @@ public class ApplicationScopeRequestAttributesResolver extends ContextSpecificAt
     }
 
     @Override
-    protected void putAttributeValueOnContext(ServletRequestContext requestContext, String name, Object value) {
+    protected void putAttributeValueOnContext(ServletRequestContext requestContext, String name,
+            Object value) {
         if (StringUtils.isEmpty(name)) {
             return;
         }
         ServletContext servletContext = requestContext.getServletContext();
         servletContext.setAttribute(name, value);
-        log.log(Markers.VARIABLE_ACCESS, "TV000001", getScopeName(), name, value);
+        log.log(Markers.VARIABLE_ACCESS, "TV000001",
+                ApplicationScopeRequestAttributesResolver.class.getCanonicalName(), name, value);
     }
 
     @Override
@@ -50,7 +47,7 @@ public class ApplicationScopeRequestAttributesResolver extends ContextSpecificAt
         }
         ServletContext servletContext = requestContext.getServletContext();
         servletContext.removeAttribute(name);
-        log.log(Markers.VARIABLE_ACCESS, "TV000002", getScopeName(), name);
+        log.log(Markers.VARIABLE_ACCESS, "TV000002",
+                ApplicationScopeRequestAttributesResolver.class.getCanonicalName(), name);
     }
-
 }
