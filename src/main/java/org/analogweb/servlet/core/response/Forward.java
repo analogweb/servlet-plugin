@@ -8,7 +8,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.analogweb.Response;
 import org.analogweb.RequestContext;
 import org.analogweb.ResponseContext;
 import org.analogweb.core.response.ContextSpecifiedResponse;
@@ -20,7 +19,7 @@ import org.analogweb.util.Maps;
 import org.analogweb.util.StringUtils;
 
 /**
- * リクエストをフォワードする{@link Response}です。
+  * リクエストをフォワードする{@link ContextSpecifiedResponse}です。
  * @see HttpServletRequest#getRequestDispatcher(String)
  * @see RequestDispatcher#forward(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
  * @author snowgoose
