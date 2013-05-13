@@ -19,6 +19,7 @@ import org.analogweb.MediaType;
 import org.analogweb.Parameters;
 import org.analogweb.RequestPath;
 import org.analogweb.core.DefaultRequestPath;
+import org.analogweb.core.MatrixParameters;
 import org.analogweb.core.MediaTypes;
 import org.analogweb.servlet.ServletRequestContext;
 import org.analogweb.util.ArrayUtils;
@@ -35,6 +36,7 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     private Cookies cookies;
     private ServletRequestHeaders requestHeaders;
     private ServletParameters parameters;
+    private Parameters matrixParameters;
 
     public DefaultServletRequestContext(HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext) {
@@ -74,6 +76,7 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     }
 
     static class ServletCookies implements Cookies {
+
         private Map<String, Cookies.Cookie> cookieMap;
         private HttpServletResponse response;
 
@@ -156,7 +159,6 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         public String getDomain() {
             return this.cookie.getDomain();
         }
-
     }
 
     @Override
@@ -196,7 +198,6 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         public boolean contains(String name) {
             return this.request.getHeader(name) != null;
         }
-
     }
 
     @Override
@@ -205,6 +206,15 @@ public class DefaultServletRequestContext implements ServletRequestContext {
             this.parameters = new ServletParameters(getServletRequest());
         }
         return this.parameters;
+    }
+
+    @Override
+    public Parameters getMatrixParameters() {
+        if (this.matrixParameters == null) {
+            this.matrixParameters = new MatrixParameters(URI.create(getServletRequest()
+                    .getRequestURI()));
+        }
+        return this.matrixParameters;
     }
 
     @Override
@@ -234,7 +244,6 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         public Map<String, String[]> asMap() {
             return request.getParameterMap();
         }
-
     }
 
     @Override
@@ -251,15 +260,14 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         return MediaTypes.valueOf(contentTypes.get(0));
     }
 
-	@Override
-	public Locale getLocale() {
-		return getServletRequest().getLocale();
-	}
+    @Override
+    public Locale getLocale() {
+        return getServletRequest().getLocale();
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Locale> getLocales() {
-		return Collections.list(getServletRequest().getLocales());
-	}
-
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Locale> getLocales() {
+        return Collections.list(getServletRequest().getLocales());
+    }
 }

@@ -34,7 +34,6 @@ import org.junit.Test;
 public class DefaultServletRequestContextTest {
 
     private DefaultServletRequestContext context;
-
     private HttpServletRequest request;
     private HttpServletResponse response;
     private ServletContext servletContext;
@@ -56,7 +55,6 @@ public class DefaultServletRequestContextTest {
         when(request.getContextPath()).thenReturn("/foo");
         when(request.getMethod()).thenReturn("GET");
         when(request.getCookies()).thenReturn(new Cookie[] { new Cookie("foo", "baa") });
-
         Cookies.Cookie actual = context.getCookies().getCookie("foo");
         assertThat(actual.getValue(), is("baa"));
     }
@@ -68,7 +66,6 @@ public class DefaultServletRequestContextTest {
         when(request.getContextPath()).thenReturn("/foo");
         when(request.getMethod()).thenReturn("GET");
         when(request.getCookies()).thenReturn(new Cookie[] { new Cookie("hoge", "fuga") });
-
         Cookies cookies = context.getCookies();
         cookies.putCookie("foo", "baa");
         Cookies.Cookie cookie = mock(Cookies.Cookie.class);
@@ -80,7 +77,6 @@ public class DefaultServletRequestContextTest {
         when(cookie.getValue()).thenReturn("value");
         when(cookie.getVersion()).thenReturn(1);
         cookies.putCookie(cookie);
-
         verify(response, times(2)).addCookie(isA(Cookie.class));
     }
 
@@ -93,7 +89,6 @@ public class DefaultServletRequestContextTest {
         when(request.getScheme()).thenReturn("http");
         when(request.getServerName()).thenReturn("somehost");
         when(request.getServerPort()).thenReturn(80);
-
         RequestPath actual = context.getRequestPath();
         assertThat(actual.getActualPath(), is("/baa/baz"));
         assertThat(actual.getMethod(), is("GET"));
@@ -103,16 +98,22 @@ public class DefaultServletRequestContextTest {
     public void testGetParameters() {
         context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getParameterValues("foo")).thenReturn(new String[] { "baa" });
-
         Parameters actual = context.getQueryParameters();
         assertThat(actual.getValues("foo").get(0), is("baa"));
+    }
+
+    @Test
+    public void testGetMatrixParameters() {
+        context = new DefaultServletRequestContext(request, response, servletContext);
+        when(request.getRequestURI()).thenReturn("/map/color;lat=50;long=20;scale=32000");
+        Parameters actual = context.getMatrixParameters();
+        assertThat(actual.getValues("long").get(0), is("20"));
     }
 
     @Test
     public void testRequestHeaders() {
         context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getHeaders("foo")).thenReturn(Collections.enumeration(Arrays.asList("baa")));
-
         Headers actual = context.getRequestHeaders();
         assertThat(actual.getValues("foo").get(0), is("baa"));
     }
@@ -121,13 +122,13 @@ public class DefaultServletRequestContextTest {
     public void testRequestBody() throws IOException {
         context = new DefaultServletRequestContext(request, response, servletContext);
         ServletInputStream expected = new ServletInputStream() {
+
             @Override
             public int read() throws IOException {
                 return 0;
             }
         };
         when(request.getInputStream()).thenReturn(expected);
-
         InputStream actual = context.getRequestBody();
         assertThat((ServletInputStream) actual, is(expected));
     }
@@ -135,10 +136,8 @@ public class DefaultServletRequestContextTest {
     @Test
     public void testGetContentType() {
         context = new DefaultServletRequestContext(request, response, servletContext);
-
         when(request.getHeaders("Content-Type")).thenReturn(
                 Collections.enumeration(Arrays.asList("text/xml", "application/xml")));
-
         MediaType actual = context.getContentType();
         assertThat(actual.getType(), is("text"));
         assertThat(actual.getSubType(), is("xml"));
@@ -147,12 +146,9 @@ public class DefaultServletRequestContextTest {
     @Test
     public void testGetContentTypeWithoutHeaderValue() {
         context = new DefaultServletRequestContext(request, response, servletContext);
-
         when(request.getHeaders("Content-Type")).thenReturn(
                 Collections.enumeration(Collections.emptyList()));
-
         MediaType actual = context.getContentType();
         assertThat(actual, is(nullValue()));
     }
-
 }
