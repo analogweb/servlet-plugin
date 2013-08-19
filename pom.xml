@@ -18,7 +18,7 @@
 	<groupId>org.analogweb</groupId>
 	<artifactId>analogweb-servlet</artifactId>
 	<packaging>jar</packaging>
-	<version>0.8.0</version>
+	<version>0.8.1-SNAPSHOT</version>
 	<name>analogweb-servlet</name>
 	<issueManagement />
 	<ciManagement />
