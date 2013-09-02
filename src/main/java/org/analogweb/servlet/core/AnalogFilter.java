@@ -22,6 +22,7 @@ import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
 import org.analogweb.ResponseContext;
 import org.analogweb.ResponseContext.ResponseEntity;
+import org.analogweb.core.DefaultApplicationProperties;
 import org.analogweb.core.MissingRequiredParameterException;
 import org.analogweb.core.WebApplication;
 import org.analogweb.WebApplicationException;
@@ -56,29 +57,17 @@ public class AnalogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-
         RequestContext context = createRequestContext(getServletContext(), request, response);
-
         ResponseContext responseContext = createResponseContext(getServletContext(), request,
                 response);
-
         RequestPath requestedPath = context.getRequestPath();
-
         log.log(Markers.LIFECYCLE, "DL000002", requestedPath);
-
-        String specifier = webApplication.getApplicationSpecifier();
-        if (requestedPath.pathThrowgh(specifier)) {
-            log.log(Markers.LIFECYCLE, "DL000003", requestedPath, specifier);
-            chain.doFilter(request, response);
-            return;
-        }
         try {
             int proceeded = webApplication.processRequest(requestedPath, context, responseContext);
             if (proceeded == Application.NOT_FOUND) {
-                log.log(Markers.LIFECYCLE, "DL000003", requestedPath, specifier);
+                log.log(Markers.LIFECYCLE, "DL000003", requestedPath);
                 chain.doFilter(request, response);
                 return;
             }
@@ -116,23 +105,22 @@ public class AnalogFilter implements Filter {
     }
 
     protected ApplicationProperties configureApplicationProperties(final FilterConfig filterConfig) {
-		String packageNames = filterConfig
-				.getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
-    	if(StringUtils.isEmpty(packageNames)){
-    		throw new MissingRequiredParameterException(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
-    	}
-		return ApplicationPropertiesHolder
-				.configure(
-						this.webApplication,
-						new ApplicationPropertiesHolder.DefaultCreator(
-								filterConfig
-										.getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES),
-								filterConfig
-										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_SPECIFIER),
-								filterConfig
-										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_TEMPORARY_DIR),
-								filterConfig
-										.getInitParameter(Application.INIT_PARAMETER_APPLICATION_PROVISION_LOCALE)));
+        String packageNames = filterConfig
+                .getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
+        if (StringUtils.isEmpty(packageNames)) {
+            throw new MissingRequiredParameterException(
+                    Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES);
+        }
+        return ApplicationPropertiesHolder
+                .configure(
+                        this.webApplication,
+                        DefaultApplicationProperties.properties(
+                                filterConfig
+                                        .getInitParameter(Application.INIT_PARAMETER_ROOT_COMPONENT_PACKAGES),
+                                filterConfig
+                                        .getInitParameter(Application.INIT_PARAMETER_APPLICATION_TEMPORARY_DIR),
+                                filterConfig
+                                        .getInitParameter(Application.INIT_PARAMETER_APPLICATION_PROVISION_LOCALE)));
     }
 
     protected RequestContext createRequestContext(ServletContext context,
@@ -160,5 +148,4 @@ public class AnalogFilter implements Filter {
     protected final ServletContext getServletContext() {
         return this.servletContext;
     }
-
 }
