@@ -178,13 +178,11 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public List<String> getValues(String name) {
             return Collections.list(this.request.getHeaders(name));
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public List<String> getNames() {
             return Collections.list(this.request.getHeaderNames());
         }
@@ -240,7 +238,6 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public Map<String, String[]> asMap() {
             return request.getParameterMap();
         }
@@ -266,7 +263,6 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Locale> getLocales() {
         return Collections.list(getServletRequest().getLocales());
     }

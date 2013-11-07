@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -147,7 +148,7 @@ public class DefaultServletRequestContextTest {
     public void testGetContentTypeWithoutHeaderValue() {
         context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getHeaders("Content-Type")).thenReturn(
-                Collections.enumeration(Collections.emptyList()));
+                Collections.enumeration(new ArrayList<String>()));
         MediaType actual = context.getContentType();
         assertThat(actual, is(nullValue()));
     }
