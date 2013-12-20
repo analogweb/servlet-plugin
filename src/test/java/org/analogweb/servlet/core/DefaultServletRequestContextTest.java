@@ -92,7 +92,7 @@ public class DefaultServletRequestContextTest {
         when(request.getServerPort()).thenReturn(80);
         RequestPath actual = context.getRequestPath();
         assertThat(actual.getActualPath(), is("/baa/baz"));
-        assertThat(actual.getMethod(), is("GET"));
+        assertThat(actual.getRequestMethod(), is("GET"));
     }
 
     @Test
