@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.analogweb.Application;
-import org.analogweb.ApplicationContextResolver;
+import org.analogweb.ApplicationContext;
 import org.analogweb.ApplicationProperties;
 import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
@@ -93,7 +93,7 @@ public class AnalogFilter implements Filter {
         ClassLoader classLoader = getCurrentClassLoader();
         this.webApplication = createApplication(filterConfig, classLoader);
         this.props = configureApplicationProperties(filterConfig);
-        this.webApplication.run(createApplicationContextResolver(this.servletContext), props,
+        this.webApplication.run(createApplicationContext(this.servletContext), props,
                 getClassCollectors(), classLoader);
     }
 
@@ -133,8 +133,8 @@ public class AnalogFilter implements Filter {
         return new ServletResponseContext(request, response, servletContext);
     }
 
-    protected ApplicationContextResolver createApplicationContextResolver(ServletContext context) {
-        return new ServletContextApplicationContextResolver(context);
+    protected ApplicationContext createApplicationContext(ServletContext context) {
+        return new ServletContextApplicationContext(context);
     }
 
     protected Application createApplication(FilterConfig config, ClassLoader classLoader) {
