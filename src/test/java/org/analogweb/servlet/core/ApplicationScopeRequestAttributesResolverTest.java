@@ -41,14 +41,14 @@ public class ApplicationScopeRequestAttributesResolverTest {
         Object expected = new Object();
         when(requestContext.getServletContext()).thenReturn(servletContext);
         when(servletContext.getAttribute("foo")).thenReturn(expected);
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", String.class);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", String.class,null);
         assertThat(actual, is(expected));
         verify(servletContext).getAttribute("foo");
     }
 
     @Test
     public void testResolveAttributeValueWithNullName() {
-        Object actual = resolver.resolveValue(requestContext, metadata, null, String.class);
+        Object actual = resolver.resolveValue(requestContext, metadata, null, String.class,null);
         assertNull(actual);
     }
 

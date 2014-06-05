@@ -44,7 +44,7 @@ public class SessionScopeRequestAttributesResolverTest {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(session);
         when(session.getAttribute("foo")).thenReturn("baa");
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null, null);
         assertThat((String) actual, is("baa"));
         verify(session).getAttribute("foo");
     }
@@ -54,7 +54,7 @@ public class SessionScopeRequestAttributesResolverTest {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(session);
         when(session.getAttribute("foo")).thenReturn(null);
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null, null);
         assertNull(actual);
         verify(session).getAttribute("foo");
     }
@@ -63,7 +63,7 @@ public class SessionScopeRequestAttributesResolverTest {
     public void testResolveAttributeValueSessionNotAvairable() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getSession(false)).thenReturn(null);
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null, null);
         assertNull(actual);
     }
 

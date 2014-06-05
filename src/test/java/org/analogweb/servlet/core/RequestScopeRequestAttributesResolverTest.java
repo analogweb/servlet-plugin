@@ -41,7 +41,7 @@ public class RequestScopeRequestAttributesResolverTest {
     public void testResolveAttributeValue() {
         when(requestContext.getServletRequest()).thenReturn(request);
         when(request.getAttribute("foo")).thenReturn(1L);
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null);
+        Object actual = resolver.resolveValue(requestContext, metadata, "foo", null, null);
         assertThat((Long) actual, is(1L));
     }
 
