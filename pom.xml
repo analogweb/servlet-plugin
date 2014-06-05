@@ -31,36 +31,9 @@
 	<parent>
 		<groupId>org.analogweb</groupId>
 		<artifactId>analogweb-parent-modules</artifactId>
-		<version>4</version>
+		<version>6</version>
 		<relativePath />
 	</parent>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<source>1.6</source>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-					<charset>UTF-8</charset>
-					<links>
-						<link>http://docs.oracle.com/javase/6/docs/api/</link>
-						<link>http://docs.oracle.com/javaee/5/api</link>
-					</links>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>org.analogweb</groupId>
