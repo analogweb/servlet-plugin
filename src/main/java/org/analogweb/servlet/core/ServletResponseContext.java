@@ -12,7 +12,6 @@ import org.analogweb.servlet.core.DefaultServletRequestContext.ServletRequestHea
 
 /**
  * @author snowgoose
- *
  */
 public class ServletResponseContext implements ResponseContext {
 
@@ -66,11 +65,6 @@ public class ServletResponseContext implements ResponseContext {
     @Override
     public void setStatus(int status) {
         getServletResponse().setStatus(status);
-    }
-
-    @Override
-    public void setContentLength(long length) {
-        getServletResponse().setContentLength(Long.valueOf(length).intValue());
     }
 
     static class ServletResponseHeaders extends ServletRequestHeaders {
