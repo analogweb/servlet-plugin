@@ -266,4 +266,30 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     public List<Locale> getLocales() {
         return Collections.list(getServletRequest().getLocales());
     }
+
+	@Override
+	public long getContentLength() {
+		return getServletRequest().getContentLengthLong();
+	}
+
+	@Override
+	public String getCharacterEncoding() {
+		return getServletRequest().getCharacterEncoding();
+	}
+
+	@Override
+	public String getRequestMethod() {
+		return getServletRequest().getMethod();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAttribute(String name) {
+		return (T)getServletRequest().getAttribute(name);
+	}
+
+	@Override
+	public <T> void setAttribute(String name, T value) {
+		getServletRequest().setAttribute(name, value);
+	}
 }
