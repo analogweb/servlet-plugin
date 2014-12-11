@@ -1,4 +1,4 @@
-Analog Web Framework
+Analog Web Frameworki Servlet Plugin
 ===============================================
 
-AnalogWeb is a tiny HTTP orientied framework and it operated on Servlet 3+. 
+This plugin enable to run Analogweb's Route on Servlet 3+ container. 
