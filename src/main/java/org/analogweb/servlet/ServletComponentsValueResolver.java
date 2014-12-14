@@ -14,7 +14,7 @@ import org.analogweb.core.RequestContextWrapper;
 /**
  * @author snowgooseyk
  */
-public class ServletConponentsValueResolver implements RequestValueResolver {
+public class ServletComponentsValueResolver implements RequestValueResolver {
 
     @Override
     public Object resolveValue(RequestContext request, InvocationMetadata metadata, String query,

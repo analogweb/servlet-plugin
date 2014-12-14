@@ -15,13 +15,13 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ServletConponentsValueResolverTest {
+public class ServletComponentsValueResolverTest {
 
-    private ServletConponentsValueResolver resolver;
+    private ServletComponentsValueResolver resolver;
 
     @Before
     public void setUp() throws Exception {
-        resolver = new ServletConponentsValueResolver();
+        resolver = new ServletComponentsValueResolver();
     }
 
     @Test

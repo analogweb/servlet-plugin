@@ -10,13 +10,13 @@ import org.analogweb.annotation.As;
 import org.analogweb.annotation.Resolver;
 
 /**
- * Expose Servlet modules with {@link ServletConponentsValueResolver}.
+ * Expose Servlet modules with {@link ServletComponentsValueResolver}.
  * @author snowgooseyk
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.PARAMETER, ElementType.FIELD })
-@Resolver(ServletConponentsValueResolver.class)
+@Resolver(ServletComponentsValueResolver.class)
 @As
 public @interface ServletModule {
 }
