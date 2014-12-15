@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.analogweb.InvocationMetadata;
 import org.analogweb.RequestContext;
 import org.analogweb.RequestValueResolver;
-import org.analogweb.core.RequestContextWrapper;
+import org.analogweb.util.RequestContextResolverUtils;
 
 /**
  * @author snowgooseyk
@@ -19,7 +19,7 @@ public class ServletComponentsValueResolver implements RequestValueResolver {
     @Override
     public Object resolveValue(RequestContext request, InvocationMetadata metadata, String query,
             Class<?> requiredType, Annotation[] parameterAnnotations) {
-        ServletRequestContext src = resolveRequestContext(request);
+        ServletRequestContext src = RequestContextResolverUtils.resolveRequestContext(request);
         if (src == null) {
             return null;
         }
@@ -29,18 +29,6 @@ public class ServletComponentsValueResolver implements RequestValueResolver {
             return src.getServletRequest().getSession(true);
         } else if (ServletContext.class.isAssignableFrom(requiredType)) {
             return src.getServletContext();
-        }
-        return null;
-    }
-
-    private ServletRequestContext resolveRequestContext(RequestContext request) {
-        if (request instanceof ServletRequestContext) {
-            return (ServletRequestContext) request;
-        } else if (request instanceof RequestContextWrapper) {
-            RequestContextWrapper rcw = (RequestContextWrapper) request;
-            if (rcw.getOriginalRequestContext() instanceof ServletRequestContext) {
-                return (ServletRequestContext) rcw.getOriginalRequestContext();
-            }
         }
         return null;
     }

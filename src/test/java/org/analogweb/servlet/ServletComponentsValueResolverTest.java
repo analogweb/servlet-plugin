@@ -30,8 +30,8 @@ public class ServletComponentsValueResolverTest {
         HttpServletRequest value = mock(HttpServletRequest.class);
         when(original.getServletRequest()).thenReturn(value);
         InvocationMetadata metadata = mock(InvocationMetadata.class);
-        Object actual = resolver
-                .resolveValue(original, metadata, "", HttpServletRequest.class, null);
+        Object actual = resolver.resolveValue(original, metadata, "", HttpServletRequest.class,
+                null);
         assertThat((HttpServletRequest) actual, is(value));
     }
 
