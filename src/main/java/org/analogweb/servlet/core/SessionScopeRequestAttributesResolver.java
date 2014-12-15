@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.analogweb.InvocationMetadata;
 import org.analogweb.core.ContextSpecificAttributesHandler;
 import org.analogweb.servlet.ServletRequestContext;
+import org.analogweb.util.RequestContextResolverUtils;
 import org.analogweb.util.StringUtils;
 import org.analogweb.util.logging.Log;
 import org.analogweb.util.logging.Logs;
@@ -22,7 +23,8 @@ public class SessionScopeRequestAttributesResolver extends
     @Override
     protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext,
             InvocationMetadata metadatan, String name, Class<?> requiredType) {
-        HttpServletRequest request = requestContext.getServletRequest();
+        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
+        HttpServletRequest request = s.getServletRequest();
         HttpSession session = request.getSession(false);
         if (session == null) {
             return null;
@@ -36,7 +38,8 @@ public class SessionScopeRequestAttributesResolver extends
         if (StringUtils.isEmpty(name)) {
             return;
         }
-        HttpServletRequest request = requestContext.getServletRequest();
+        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
+        HttpServletRequest request = s.getServletRequest();
         HttpSession session = request.getSession(true);
         session.setAttribute(name, value);
         log.log(Markers.VARIABLE_ACCESS, "TV000001",
@@ -48,11 +51,11 @@ public class SessionScopeRequestAttributesResolver extends
         if (StringUtils.isEmpty(name)) {
             return;
         }
-        HttpServletRequest request = requestContext.getServletRequest();
+        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
+        HttpServletRequest request = s.getServletRequest();
         HttpSession session = request.getSession(true);
         session.removeAttribute(name);
         log.log(Markers.VARIABLE_ACCESS, "TV000002",
                 SessionScopeRequestAttributesResolver.class.getCanonicalName(), name);
     }
-
 }
