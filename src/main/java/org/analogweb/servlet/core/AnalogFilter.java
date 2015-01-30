@@ -33,9 +33,10 @@ import org.analogweb.util.logging.Logs;
 import org.analogweb.util.logging.Markers;
 
 /**
- * TODO write test case.
+ * @deprecated No longer in use.
  * @author snowgoose
  */
+@Deprecated
 public class AnalogFilter implements Filter {
 
     private static final Log log = Logs.getLog(AnalogFilter.class);
