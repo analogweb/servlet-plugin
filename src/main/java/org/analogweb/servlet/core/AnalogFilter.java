@@ -25,6 +25,7 @@ import org.analogweb.ResponseContext.ResponseEntity;
 import org.analogweb.core.DefaultApplicationProperties;
 import org.analogweb.core.WebApplication;
 import org.analogweb.WebApplicationException;
+import org.analogweb.servlet.AnalogwebServletContainer;
 import org.analogweb.util.ClassCollector;
 import org.analogweb.util.FileClassCollector;
 import org.analogweb.util.JarClassCollector;
@@ -33,7 +34,7 @@ import org.analogweb.util.logging.Logs;
 import org.analogweb.util.logging.Markers;
 
 /**
- * @deprecated No longer in use.
+ * @deprecated No longer in use.Use {@link AnalogwebServletContainer} instead.
  * @author snowgoose
  */
 @Deprecated
