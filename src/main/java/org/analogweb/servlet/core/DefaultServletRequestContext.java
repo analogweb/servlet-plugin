@@ -178,11 +178,13 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public List<String> getValues(String name) {
             return Collections.list(this.request.getHeaders(name));
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public List<String> getNames() {
             return Collections.list(this.request.getHeaderNames());
         }
@@ -238,6 +240,7 @@ public class DefaultServletRequestContext implements ServletRequestContext {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Map<String, String[]> asMap() {
             return request.getParameterMap();
         }
@@ -263,33 +266,34 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Locale> getLocales() {
         return Collections.list(getServletRequest().getLocales());
     }
 
-	@Override
-	public long getContentLength() {
-		return getServletRequest().getContentLengthLong();
-	}
+    @Override
+    public long getContentLength() {
+        return Long.valueOf(getServletRequest().getHeader("Content-Length"));
+    }
 
-	@Override
-	public String getCharacterEncoding() {
-		return getServletRequest().getCharacterEncoding();
-	}
+    @Override
+    public String getCharacterEncoding() {
+        return getServletRequest().getCharacterEncoding();
+    }
 
-	@Override
-	public String getRequestMethod() {
-		return getServletRequest().getMethod();
-	}
+    @Override
+    public String getRequestMethod() {
+        return getServletRequest().getMethod();
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getAttribute(String name) {
-		return (T)getServletRequest().getAttribute(name);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getAttribute(String name) {
+        return (T) getServletRequest().getAttribute(name);
+    }
 
-	@Override
-	public <T> void setAttribute(String name, T value) {
-		getServletRequest().setAttribute(name, value);
-	}
+    @Override
+    public <T> void setAttribute(String name, T value) {
+        getServletRequest().setAttribute(name, value);
+    }
 }

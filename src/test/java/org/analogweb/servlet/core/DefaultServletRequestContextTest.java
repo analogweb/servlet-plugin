@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import javax.servlet.ReadListener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
@@ -129,20 +128,6 @@ public class DefaultServletRequestContextTest {
             public int read() throws IOException {
                 return 0;
             }
-
-			@Override
-			public boolean isFinished() {
-				return false;
-			}
-
-			@Override
-			public boolean isReady() {
-				return false;
-			}
-
-			@Override
-			public void setReadListener(ReadListener readListener) {
-			}
         };
         when(request.getInputStream()).thenReturn(expected);
         InputStream actual = context.getRequestBody();
