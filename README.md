@@ -1,7 +1,7 @@
-Analog Web Frameworki Servlet Plugin
+Analog Web Framework Servlet Plugin
 ===============================================
 
-This plugin enable to run Analogweb's Route on Servlet 3+ container. 
+This plugin enable to run Analogweb's Route on Servlet 2.5+ container. 
 
 Integrate with Servlet container
 ----------------------------------------------
