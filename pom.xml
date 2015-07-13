@@ -31,12 +31,11 @@
     <url>scm:git:git@github.com:analogweb/servlet-plugin.git</url>
     <connection>scm:git:git@github.com:analogweb/servlet-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:analogweb/servlet-plugin.git</developerConnection>
-    <tag>HEAD</tag>
   </scm>
   <parent>
     <groupId>org.analogweb</groupId>
     <artifactId>analogweb-parent-modules</artifactId>
-    <version>9</version>
+    <version>10</version>
     <relativePath />
   </parent>
   <dependencies>
@@ -57,7 +56,7 @@
     </dependency>
 	<dependency>
 		<groupId>org.hamcrest</groupId>
-		<artifactId>java-hamcrest</artifactId>
+		<artifactId>hamcrest-junit</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>org.mockito</groupId>
