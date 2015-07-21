@@ -21,7 +21,7 @@
   <groupId>org.analogweb</groupId>
   <artifactId>analogweb-servlet</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.8-SNAPSHOT</version>
+  <version>0.9.8</version>
   <name>analogweb-servlet</name>
   <issueManagement />
   <ciManagement />
@@ -31,6 +31,7 @@
     <url>scm:git:git@github.com:analogweb/servlet-plugin.git</url>
     <connection>scm:git:git@github.com:analogweb/servlet-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:analogweb/servlet-plugin.git</developerConnection>
+    <tag>v0.9.8</tag>
   </scm>
   <parent>
     <groupId>org.analogweb</groupId>
@@ -42,7 +43,7 @@
     <dependency>
       <groupId>org.analogweb</groupId>
       <artifactId>analogweb-core</artifactId>
-      <version>0.9.8-SNAPSHOT</version>
+      <version>0.9.8</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
