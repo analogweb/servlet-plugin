@@ -9,8 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.analogweb.RequestContext;
+import org.analogweb.Response;
 import org.analogweb.ResponseContext;
 import org.analogweb.core.response.ContextSpecifiedResponse;
+import org.analogweb.core.DefaultResponse;
 import org.analogweb.core.MissingRequirmentsException;
 import org.analogweb.WebApplicationException;
 import org.analogweb.servlet.ServletRequestContext;
@@ -35,7 +37,7 @@ public class Forward extends ContextSpecifiedResponse<ServletRequestContext> {
     }
 
     @Override
-    protected void renderInternal(ServletRequestContext context,ResponseContext response) throws IOException,
+    protected Response renderInternal(ServletRequestContext context,ResponseContext response) throws IOException,
             WebApplicationException {
         Assertion.notNull(context, RequestContext.class.getCanonicalName());
 
@@ -45,6 +47,7 @@ public class Forward extends ContextSpecifiedResponse<ServletRequestContext> {
         RequestDispatcher dispatcher = request.getRequestDispatcher(to);
         try {
             dispatcher.forward(request, context.getServletResponse());
+            return new DefaultResponse();
         } catch (ServletException e) {
             throw new WebApplicationException(e);
         }

@@ -21,8 +21,9 @@ import org.analogweb.ApplicationContext;
 import org.analogweb.ApplicationProperties;
 import org.analogweb.RequestContext;
 import org.analogweb.RequestPath;
+import org.analogweb.Response;
 import org.analogweb.ResponseContext;
-import org.analogweb.ResponseContext.ResponseEntity;
+import org.analogweb.ResponseEntity;
 import org.analogweb.core.DefaultApplicationProperties;
 import org.analogweb.core.WebApplication;
 import org.analogweb.WebApplicationException;
@@ -75,7 +76,7 @@ public class AnalogwebServletContainer extends HttpServlet implements Filter {
         }
     }
 
-    protected int process(ServletRequest req, ServletResponse res) throws IOException,
+    protected Response process(ServletRequest req, ServletResponse res) throws IOException,
             ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -85,18 +86,18 @@ public class AnalogwebServletContainer extends HttpServlet implements Filter {
         RequestPath requestedPath = context.getRequestPath();
         log.log(Markers.LIFECYCLE, "DL000002", requestedPath);
         try {
-            int proceeded = webApplication.processRequest(requestedPath, context, responseContext);
+            Response proceeded = webApplication.processRequest(requestedPath, context, responseContext);
             if (proceeded == Application.NOT_FOUND) {
                 log.log(Markers.LIFECYCLE, "DL000003", requestedPath);
                 return Application.NOT_FOUND;
             }
-            ResponseEntity entity = responseContext.getResponseWriter().getEntity();
+            ResponseEntity entity = proceeded.getEntity();
             if (entity == null) {
-                return Application.PROCEEDED;
+                return proceeded;
             }
             response.setContentLength((int) entity.getContentLength());
             entity.writeInto(response.getOutputStream());
-            return Application.PROCEEDED;
+            return proceeded;
         } catch (WebApplicationException e) {
             Throwable t = e.getCause();
             if (t != null) {

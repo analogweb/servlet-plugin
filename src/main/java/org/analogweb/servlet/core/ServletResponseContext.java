@@ -6,20 +6,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.analogweb.Headers;
 import org.analogweb.RequestContext;
-import org.analogweb.ResponseContext;
-import org.analogweb.core.DefaultResponseWriter;
+import org.analogweb.Response;
+import org.analogweb.core.AbstractResponseContext;
 import org.analogweb.servlet.core.DefaultServletRequestContext.ServletRequestHeaders;
 
 /**
  * @author snowgoose
  */
-public class ServletResponseContext implements ResponseContext {
+public class ServletResponseContext extends AbstractResponseContext {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final ServletContext servletContext;
     private ServletResponseHeaders responseHeaders;
-    private ResponseWriter writer;
 
     public ServletResponseContext(HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext) {
@@ -41,25 +40,12 @@ public class ServletResponseContext implements ResponseContext {
     }
 
     @Override
-    public void commmit(RequestContext context) {
-        // nop.
-    }
-
-    @Override
     public Headers getResponseHeaders() {
         if (this.responseHeaders == null) {
             this.responseHeaders = new ServletResponseHeaders(getServletRequest(),
                     getServletResponse());
         }
         return this.responseHeaders;
-    }
-
-    @Override
-    public ResponseWriter getResponseWriter() {
-        if(writer == null){
-            writer = new DefaultResponseWriter();
-        }
-        return writer;
     }
 
     @Override
@@ -81,6 +67,12 @@ public class ServletResponseContext implements ResponseContext {
             this.response.addHeader(name, value);
         }
 
+    }
+
+    @Override
+    public void commit(RequestContext context, Response response) {
+        // NOP
+        
     }
     
 }
