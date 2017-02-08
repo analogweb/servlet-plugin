@@ -12,7 +12,7 @@ import org.analogweb.RequestValueResolver;
 import org.analogweb.util.RequestContextResolverUtils;
 
 /**
- * @author snowgooseyk
+ * @author y2k2mt
  */
 public class ServletComponentsValueResolver implements RequestValueResolver {
 

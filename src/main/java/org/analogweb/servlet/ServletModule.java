@@ -11,7 +11,7 @@ import org.analogweb.annotation.Resolver;
 
 /**
  * Expose Servlet modules with {@link ServletComponentsValueResolver}.
- * @author snowgooseyk
+ * @author y2k2mt
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
