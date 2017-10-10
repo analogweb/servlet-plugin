@@ -25,6 +25,7 @@ import org.analogweb.Response;
 import org.analogweb.ResponseContext;
 import org.analogweb.ResponseEntity;
 import org.analogweb.core.DefaultApplicationProperties;
+import org.analogweb.core.DefaultWritableBuffer;
 import org.analogweb.core.WebApplication;
 import org.analogweb.WebApplicationException;
 import org.analogweb.servlet.core.DefaultServletRequestContext;
@@ -40,7 +41,7 @@ import org.analogweb.util.logging.Markers;
 /**
  * Analogweb {@link Application} running on Servlet environment.
  * This container describe as {@link Filter} or {@link HttpServlet}.
- * @author snowgoose
+ * @author y2k2mt
  */
 public class AnalogwebServletContainer extends HttpServlet implements Filter {
 
@@ -96,7 +97,7 @@ public class AnalogwebServletContainer extends HttpServlet implements Filter {
                 return proceeded;
             }
             response.setContentLength((int) entity.getContentLength());
-            entity.writeInto(response.getOutputStream());
+            entity.writeInto(DefaultWritableBuffer.writeBuffer(response.getOutputStream()));
             return proceeded;
         } catch (WebApplicationException e) {
             Throwable t = e.getCause();

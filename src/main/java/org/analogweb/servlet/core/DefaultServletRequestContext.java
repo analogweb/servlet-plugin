@@ -1,7 +1,6 @@
 package org.analogweb.servlet.core;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,11 +12,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.analogweb.Cookies;
-import org.analogweb.Headers;
-import org.analogweb.MediaType;
-import org.analogweb.Parameters;
-import org.analogweb.RequestPath;
+import org.analogweb.*;
+import org.analogweb.core.DefaultReadableBuffer;
 import org.analogweb.core.DefaultRequestPath;
 import org.analogweb.core.MatrixParameters;
 import org.analogweb.core.MediaTypes;
@@ -247,8 +243,8 @@ public class DefaultServletRequestContext implements ServletRequestContext {
     }
 
     @Override
-    public InputStream getRequestBody() throws IOException {
-        return getServletRequest().getInputStream();
+    public ReadableBuffer getRequestBody() throws IOException {
+        return DefaultReadableBuffer.readBuffer(getServletRequest().getInputStream());
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.analogweb.servlet.core.SessionScopeRequestAttributesResolver;
 
 /**
  * Handle attribute value via {@link SessionScopeRequestAttributesResolver}.
- * @author snowgooseyk
+ * @author y2k2mt
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

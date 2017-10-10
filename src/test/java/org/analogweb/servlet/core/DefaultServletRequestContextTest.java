@@ -120,21 +120,6 @@ public class DefaultServletRequestContextTest {
     }
 
     @Test
-    public void testRequestBody() throws IOException {
-        context = new DefaultServletRequestContext(request, response, servletContext);
-        ServletInputStream expected = new ServletInputStream() {
-
-            @Override
-            public int read() throws IOException {
-                return 0;
-            }
-        };
-        when(request.getInputStream()).thenReturn(expected);
-        InputStream actual = context.getRequestBody();
-        assertThat((ServletInputStream) actual, is(expected));
-    }
-
-    @Test
     public void testGetContentType() {
         context = new DefaultServletRequestContext(request, response, servletContext);
         when(request.getHeaders("Content-Type")).thenReturn(
