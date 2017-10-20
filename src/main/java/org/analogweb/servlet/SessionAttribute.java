@@ -12,11 +12,12 @@ import org.analogweb.servlet.core.SessionScopeRequestAttributesResolver;
 
 /**
  * Handle attribute value via {@link SessionScopeRequestAttributesResolver}.
+ * 
  * @author y2k2mt
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.PARAMETER, ElementType.FIELD })
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Resolver(SessionScopeRequestAttributesResolver.class)
 @As
 public @interface SessionAttribute {

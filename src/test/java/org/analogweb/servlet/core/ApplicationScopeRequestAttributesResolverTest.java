@@ -20,60 +20,62 @@ import org.junit.Test;
  */
 public class ApplicationScopeRequestAttributesResolverTest {
 
-    private ApplicationScopeRequestAttributesResolver resolver;
-    private ServletRequestContext requestContext;
-    private ServletContext servletContext;
-    private InvocationMetadata metadata;
+	private ApplicationScopeRequestAttributesResolver resolver;
+	private ServletRequestContext requestContext;
+	private ServletContext servletContext;
+	private InvocationMetadata metadata;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        resolver = new ApplicationScopeRequestAttributesResolver();
-        requestContext = mock(ServletRequestContext.class);
-        servletContext = mock(ServletContext.class);
-        metadata = mock(InvocationMetadata.class);
-    }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		resolver = new ApplicationScopeRequestAttributesResolver();
+		requestContext = mock(ServletRequestContext.class);
+		servletContext = mock(ServletContext.class);
+		metadata = mock(InvocationMetadata.class);
+	}
 
-    @Test
-    public void testResolveAttributeValue() {
-        Object expected = new Object();
-        when(requestContext.getServletContext()).thenReturn(servletContext);
-        when(servletContext.getAttribute("foo")).thenReturn(expected);
-        Object actual = resolver.resolveValue(requestContext, metadata, "foo", String.class,null);
-        assertThat(actual, is(expected));
-        verify(servletContext).getAttribute("foo");
-    }
+	@Test
+	public void testResolveAttributeValue() {
+		Object expected = new Object();
+		when(requestContext.getServletContext()).thenReturn(servletContext);
+		when(servletContext.getAttribute("foo")).thenReturn(expected);
+		Object actual = resolver.resolveValue(requestContext, metadata, "foo",
+				String.class, null);
+		assertThat(actual, is(expected));
+		verify(servletContext).getAttribute("foo");
+	}
 
-    @Test
-    public void testResolveAttributeValueWithNullName() {
-        Object actual = resolver.resolveValue(requestContext, metadata, null, String.class,null);
-        assertNull(actual);
-    }
+	@Test
+	public void testResolveAttributeValueWithNullName() {
+		Object actual = resolver.resolveValue(requestContext, metadata, null,
+				String.class, null);
+		assertNull(actual);
+	}
 
-    @Test
-    public void testPutAttributeValue() {
-        when(requestContext.getServletContext()).thenReturn(servletContext);
-        doNothing().when(servletContext).setAttribute("foo", "baa");
-        resolver.putAttributeValue(requestContext, "foo", "baa");
-        verify(servletContext).setAttribute("foo", "baa");
-    }
+	@Test
+	public void testPutAttributeValue() {
+		when(requestContext.getServletContext()).thenReturn(servletContext);
+		doNothing().when(servletContext).setAttribute("foo", "baa");
+		resolver.putAttributeValue(requestContext, "foo", "baa");
+		verify(servletContext).setAttribute("foo", "baa");
+	}
 
-    @Test
-    public void testPutAttributeValueWithNullName() {
-        resolver.putAttributeValue(requestContext, null, "baa");
-    }
+	@Test
+	public void testPutAttributeValueWithNullName() {
+		resolver.putAttributeValue(requestContext, null, "baa");
+	}
 
-    @Test
-    public void testRemoveAttributeValue() {
-        when(requestContext.getServletContext()).thenReturn(servletContext);
-        resolver.removeAttribute(requestContext, "foo");
-        verify(servletContext).removeAttribute("foo");
-    }
+	@Test
+	public void testRemoveAttributeValue() {
+		when(requestContext.getServletContext()).thenReturn(servletContext);
+		resolver.removeAttribute(requestContext, "foo");
+		verify(servletContext).removeAttribute("foo");
+	}
 
-    @Test
-    public void testRemoveAttributeValueWithNullName() {
-        resolver.removeAttribute(requestContext, null);
-    }
+	@Test
+	public void testRemoveAttributeValueWithNullName() {
+		resolver.removeAttribute(requestContext, null);
+	}
 }

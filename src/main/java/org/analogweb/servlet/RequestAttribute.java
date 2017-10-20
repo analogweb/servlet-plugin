@@ -12,11 +12,12 @@ import org.analogweb.servlet.core.RequestScopeRequestAttributesResolver;
 
 /**
  * Handle attribute value via {@link RequestScopeRequestAttributesResolver}.
+ * 
  * @author y2k2mt
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.PARAMETER, ElementType.FIELD })
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Resolver(RequestScopeRequestAttributesResolver.class)
 @As
 public @interface RequestAttribute {

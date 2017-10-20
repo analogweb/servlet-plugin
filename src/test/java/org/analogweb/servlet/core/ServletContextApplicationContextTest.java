@@ -18,43 +18,49 @@ import org.junit.Test;
  */
 public class ServletContextApplicationContextTest {
 
-    private ServletContextApplicationContext resolver;
-    private ServletContext context;
+	private ServletContextApplicationContext resolver;
+	private ServletContext context;
 
-    @Before
-    public void setUp() throws Exception {
-        context = mock(ServletContext.class);
-        resolver = new ServletContextApplicationContext(context);
-    }
+	@Before
+	public void setUp() throws Exception {
+		context = mock(ServletContext.class);
+		resolver = new ServletContextApplicationContext(context);
+	}
 
-    /**
-     * Test method for {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}.
-     */
-    @Test
-    public void testResolve() {
-        when(context.getAttribute("foo")).thenReturn(BigDecimal.ONE);
-        Number actual = resolver.getAttribute(Number.class, "foo");
-        assertThat((BigDecimal) actual, is(BigDecimal.ONE));
-    }
+	/**
+	 * Test method for
+	 * {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}
+	 * .
+	 */
+	@Test
+	public void testResolve() {
+		when(context.getAttribute("foo")).thenReturn(BigDecimal.ONE);
+		Number actual = resolver.getAttribute(Number.class, "foo");
+		assertThat((BigDecimal) actual, is(BigDecimal.ONE));
+	}
 
-    /**
-     * Test method for {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}.
-     */
-    @Test
-    public void testResolveUnResolvable() {
-        when(context.getAttribute("foo")).thenReturn(null);
-        Number actual = resolver.getAttribute(Number.class, "foo");
-        assertThat((BigDecimal) actual, is(nullValue()));
-    }
+	/**
+	 * Test method for
+	 * {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}
+	 * .
+	 */
+	@Test
+	public void testResolveUnResolvable() {
+		when(context.getAttribute("foo")).thenReturn(null);
+		Number actual = resolver.getAttribute(Number.class, "foo");
+		assertThat((BigDecimal) actual, is(nullValue()));
+	}
 
-    /**
-     * Test method for {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}.
-     */
-    @Test
-    public void testResolveUnResolvableType() {
-        when(context.getAttribute("foo")).thenReturn(BigDecimal.ONE);
-        Integer actual = resolver.getAttribute(Integer.class, "foo");
-        assertThat(actual, is(nullValue()));
-    }
+	/**
+	 * Test method for
+	 * {@link org.analogweb.core.ServletContextApplicationContext#resolve(java.lang.Class, java.lang.String)}
+	 * .
+	 */
+	@Test
+	public void testResolveUnResolvableType() {
+		when(context.getAttribute("foo")).thenReturn(BigDecimal.ONE);
+		Integer actual = resolver.getAttribute(Integer.class, "foo");
+		assertThat(actual, is(nullValue()));
+	}
 
 }

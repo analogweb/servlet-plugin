@@ -16,20 +16,22 @@ import org.analogweb.util.RequestContextResolverUtils;
  */
 public class ServletComponentsValueResolver implements RequestValueResolver {
 
-    @Override
-    public Object resolveValue(RequestContext request, InvocationMetadata metadata, String query,
-            Class<?> requiredType, Annotation[] parameterAnnotations) {
-        ServletRequestContext src = RequestContextResolverUtils.resolveRequestContext(request);
-        if (src == null) {
-            return null;
-        }
-        if (ServletRequest.class.isAssignableFrom(requiredType)) {
-            return src.getServletRequest();
-        } else if (HttpSession.class.isAssignableFrom(requiredType)) {
-            return src.getServletRequest().getSession(true);
-        } else if (ServletContext.class.isAssignableFrom(requiredType)) {
-            return src.getServletContext();
-        }
-        return null;
-    }
+	@Override
+	public Object resolveValue(RequestContext request,
+			InvocationMetadata metadata, String query, Class<?> requiredType,
+			Annotation[] parameterAnnotations) {
+		ServletRequestContext src = RequestContextResolverUtils
+				.resolveRequestContext(request);
+		if (src == null) {
+			return null;
+		}
+		if (ServletRequest.class.isAssignableFrom(requiredType)) {
+			return src.getServletRequest();
+		} else if (HttpSession.class.isAssignableFrom(requiredType)) {
+			return src.getServletRequest().getSession(true);
+		} else if (ServletContext.class.isAssignableFrom(requiredType)) {
+			return src.getServletContext();
+		}
+		return null;
+	}
 }
