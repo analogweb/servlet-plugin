@@ -8,8 +8,8 @@ import org.analogweb.RequestContext;
 
 public interface ServletRequestContext extends RequestContext {
 
-    HttpServletRequest getServletRequest();
-    HttpServletResponse getServletResponse();
-    ServletContext getServletContext();
+	HttpServletRequest getServletRequest();
+	HttpServletResponse getServletResponse();
+	ServletContext getServletContext();
 
 }

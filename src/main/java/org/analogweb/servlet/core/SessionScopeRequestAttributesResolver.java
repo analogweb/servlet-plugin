@@ -15,47 +15,56 @@ import org.analogweb.util.logging.Markers;
 /**
  * @author snowgoose
  */
-public class SessionScopeRequestAttributesResolver extends
-        ContextSpecificAttributesHandler<ServletRequestContext> {
+public class SessionScopeRequestAttributesResolver
+		extends
+			ContextSpecificAttributesHandler<ServletRequestContext> {
 
-    private static final Log log = Logs.getLog(SessionScopeRequestAttributesResolver.class);
+	private static final Log log = Logs
+			.getLog(SessionScopeRequestAttributesResolver.class);
 
-    @Override
-    protected Object resolveAttributeValueOnContext(ServletRequestContext requestContext,
-            InvocationMetadata metadatan, String name, Class<?> requiredType) {
-        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
-        HttpServletRequest request = s.getServletRequest();
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return null;
-        }
-        return session.getAttribute(name);
-    }
+	@Override
+	protected Object resolveAttributeValueOnContext(
+			ServletRequestContext requestContext, InvocationMetadata metadatan,
+			String name, Class<?> requiredType) {
+		ServletRequestContext s = RequestContextResolverUtils
+				.resolveRequestContext(requestContext);
+		HttpServletRequest request = s.getServletRequest();
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return null;
+		}
+		return session.getAttribute(name);
+	}
 
-    @Override
-    protected void putAttributeValueOnContext(ServletRequestContext requestContext, String name,
-            Object value) {
-        if (StringUtils.isEmpty(name)) {
-            return;
-        }
-        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
-        HttpServletRequest request = s.getServletRequest();
-        HttpSession session = request.getSession(true);
-        session.setAttribute(name, value);
-        log.log(Markers.VARIABLE_ACCESS, "TV000001",
-                SessionScopeRequestAttributesResolver.class.getCanonicalName(), name, value);
-    }
+	@Override
+	protected void putAttributeValueOnContext(
+			ServletRequestContext requestContext, String name, Object value) {
+		if (StringUtils.isEmpty(name)) {
+			return;
+		}
+		ServletRequestContext s = RequestContextResolverUtils
+				.resolveRequestContext(requestContext);
+		HttpServletRequest request = s.getServletRequest();
+		HttpSession session = request.getSession(true);
+		session.setAttribute(name, value);
+		log.log(Markers.VARIABLE_ACCESS, "TV000001",
+				SessionScopeRequestAttributesResolver.class.getCanonicalName(),
+				name, value);
+	}
 
-    @Override
-    protected void removeAttributeOnContext(ServletRequestContext requestContext, String name) {
-        if (StringUtils.isEmpty(name)) {
-            return;
-        }
-        ServletRequestContext s = RequestContextResolverUtils.resolveRequestContext(requestContext);
-        HttpServletRequest request = s.getServletRequest();
-        HttpSession session = request.getSession(true);
-        session.removeAttribute(name);
-        log.log(Markers.VARIABLE_ACCESS, "TV000002",
-                SessionScopeRequestAttributesResolver.class.getCanonicalName(), name);
-    }
+	@Override
+	protected void removeAttributeOnContext(
+			ServletRequestContext requestContext, String name) {
+		if (StringUtils.isEmpty(name)) {
+			return;
+		}
+		ServletRequestContext s = RequestContextResolverUtils
+				.resolveRequestContext(requestContext);
+		HttpServletRequest request = s.getServletRequest();
+		HttpSession session = request.getSession(true);
+		session.removeAttribute(name);
+		log.log(Markers.VARIABLE_ACCESS, "TV000002",
+				SessionScopeRequestAttributesResolver.class.getCanonicalName(),
+				name);
+	}
 }

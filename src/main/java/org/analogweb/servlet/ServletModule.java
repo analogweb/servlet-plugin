@@ -11,11 +11,12 @@ import org.analogweb.annotation.Resolver;
 
 /**
  * Expose Servlet modules with {@link ServletComponentsValueResolver}.
+ * 
  * @author y2k2mt
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.PARAMETER, ElementType.FIELD })
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Resolver(ServletComponentsValueResolver.class)
 @As
 public @interface ServletModule {

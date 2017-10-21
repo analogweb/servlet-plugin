@@ -22,35 +22,36 @@ import org.junit.Test;
  */
 public class ServletResponseContextTest {
 
-    private ServletResponseContext context;
+	private ServletResponseContext context;
 
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private ServletContext servletContext;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private ServletContext servletContext;
 
-    @Before
-    public void setUp() {
-        request = mock(HttpServletRequest.class);
-        response = mock(HttpServletResponse.class);
-        servletContext = mock(ServletContext.class);
-        context = new ServletResponseContext(request, response, servletContext);
-    }
+	@Before
+	public void setUp() {
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		servletContext = mock(ServletContext.class);
+		context = new ServletResponseContext(request, response, servletContext);
+	}
 
-    @Test
-    public void testGetResponseHeaders() {
-        when(request.getHeaders("foo")).thenReturn(Collections.enumeration(Arrays.asList("baa")));
+	@Test
+	public void testGetResponseHeaders() {
+		when(request.getHeaders("foo")).thenReturn(
+				Collections.enumeration(Arrays.asList("baa")));
 
-        Headers actual = context.getResponseHeaders();
-        assertThat(actual.getValues("foo").get(0), is("baa"));
+		Headers actual = context.getResponseHeaders();
+		assertThat(actual.getValues("foo").get(0), is("baa"));
 
-        actual.putValue("baa", "baz");
-        verify(response).addHeader("baa", "baz");
-    }
+		actual.putValue("baa", "baz");
+		verify(response).addHeader("baa", "baz");
+	}
 
-    @Test
-    public void testSetResponseCode() {
-        context.setStatus(404);
-        verify(response).setStatus(404);
-    }
+	@Test
+	public void testSetResponseCode() {
+		context.setStatus(404);
+		verify(response).setStatus(404);
+	}
 
 }
